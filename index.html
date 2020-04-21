@@ -18,8 +18,20 @@
       integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
       crossorigin="anonymous"
     />
+
+    <link rel="stylesheet" href="package/dist/Chart.min.css">
+    <script
+  src="https://code.jquery.com/jquery-3.5.0.min.js"
+  integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
+  crossorigin="anonymous"></script>
+    <script src="package/dist/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/countup@1.8.2/dist/countUp.min.js"></script>
+    <!-- <script src="countUp.js-master/dist/countUp.js"></script> -->
+    
+
   </head>
   <body>
+    
     <!--[if lt IE 7]>
       <p class="browsehappy">
         You are using an <strong>outdated</strong> browser. Please
@@ -27,15 +39,7 @@
       </p>
     <![endif]-->
 
-    <!-- <div>
-      <form name="demoform">
-        <select name="country" onchange="getCountries()" id="countries">
-          <option>Select Country</option>
-        </select>
-      </form>
-
-      <span id="output"></span>
-    </div> -->
+   
     <div class="bs-example">
         <nav class="navbar navbar-expand-md navbar-light bg-light">
             <a href="#" class="navbar-brand">
@@ -53,9 +57,18 @@
             </div>
         </nav>
     </div>
-    <div class="text-center ">
-        <h2>India</h2>
-    </div>
+    <div class="text-center mt-4"> 
+      <form name="demoform">
+        <select  class="btn btn-secondary" name="country" onchange="getCountries()" id="countries">
+          <option>Select_Country</option>
+        </select>
+      </form>
+
+      
+      <h2 id = "india" class="mt-2 mb-2" style="display: none;"> <span id="output"></span></h2>
+      <h2><span id="country_name" class="mt-2"></span>  </h2>
+    </div> 
+   
    
 
     <div class="container">
@@ -116,15 +129,83 @@
         </nav>
     </div>
 
+
+    <!-- <canvas id="myChart" width="200" height="200"></canvas> -->
+    <!-- <div
+          class="card text-white bg-success mb-4 col-sm-4 mr-4 md-col-4 mx-auto mt-5 rounded"
+          style="max-width: 18rem;"
+        >
+          <div class="card-header"><h1>Recovered</h1></div>
+          <div class="card-body">
+            
+            <p class="card-text">
+                <h3><span id="recovered_cases"></span></h3>
+                <h3><span id="last_update1"></span></h3>
+                <h4>Number of Recoveries from COVID-19</h4>
+            </p>
+          </div>
+        </div> -->
+<!-- 
+    <script>
+      var ctx = document.getElementById('myChart').getContext('2d');
+      var myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+              // labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+              datasets: [{
+                  label: 'Confirmed',
+                  data: [12, 19, 3, 5, 2, 3],
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255, 99, 132, 1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          beginAtZero: true
+                      }
+                  }]
+              }
+          }
+      });
+      </script> -->
+
     <script>
       const api_url = "https://covid19.mathdro.id/api/countries/India";
 
-      const api_countries = "https://covid19.mathdro.id/api/countries/";
+      const api_countries = "https://covid19.mathdro.id/api/countries";
+
+      
+
+
+      // function changeCountryName()
+      // {
+      //   document.getElementById("india2").style.display = "none";
+      //   document.getElementById("india").style.display = "block";
+      // }
+      
       async function getCountries() {
         const response = await fetch(api_countries);
         const countries = await response.json();
+        
         // let arr = countries[0];
-        console.log(countries);
+        // console.log(countries);
         // console.log(countries.countries[15].name);
         var country_names = new Array();
 
@@ -141,14 +222,14 @@
         // ******************************************************************************
         // Working code
 
-        // var select = document.getElementById("countries");
-        // for (var i = 0; i < country_names.length; i++) {
-        //   var option = document.createElement("OPTION");
-        //   txt = document.createTextNode(country_names[i]);
-        //   option.appendChild(txt);
-        //   option.setAttribute("value", country_names[i]);
-        //   select.insertBefore(option, select.lastChild);
-        // }
+        var select = document.getElementById("countries");
+        for (var i = 0; i < country_names.length; i++) {
+          var option = document.createElement("OPTION");
+          txt = document.createTextNode(country_names[i]);
+          option.appendChild(txt);
+          option.setAttribute("value", country_names[i]);
+          select.insertBefore(option, select.lastChild);
+        }
         // ****************************************************************************************
         // selectElement = document.querySelector("#countries");
 
@@ -161,33 +242,66 @@
         // console.log(strUser);
         // *****************************************************************************************
         // Working Code
-        // var theselect = demoform.country;
-        // var output = document.getElementById("output");
-        // output.innerHTML = theselect[theselect.selectedIndex].text;
-        // var country_name = theselect[theselect.selectedIndex].text;
+        var theselect = demoform.country;
+        var output = document.getElementById("output");
+        output.innerHTML = theselect[theselect.selectedIndex].text;
+        var country_name = theselect[theselect.selectedIndex].text;
         // console.log(country_name);
 
+        // const response = await fetch(api_url);
+        // const data = await response.json();
+        // console.log(data);
+
+        if(country_name == "Select_Country")
+        {
+          getData("India")
+        }
+        else
+        {
+          getData(country_name);
+        }
+
+        
+
         // **********************************************************************************
+
+        
       }
-      async function getData() {
-        const response = await fetch(api_url);
+      async function getData(country_name) {
+        const response = await fetch("https://covid19.mathdro.id/api/countries/"+country_name);
         const data = await response.json();
-        console.log(data);
+        var dropdown_country_name = document.getElementById("country_name");
+        dropdown_country_name.innerHTML = country_name;
+        // console.log(data);
+        // console.log("Inside getData ");
+        // console.log(country_name);
         const modifiedData = {
           confirmed: data.confirmed,
           recovered: data.recovered,
           deaths: data.deaths,
           lastUpdate: data.lastUpdate,
         };
-        console.log(modifiedData.confirmed.value);
-        console.log(modifiedData.deaths.value);
-        console.log(modifiedData.recovered.value);
-        console.log(modifiedData.lastUpdate);
+        // console.log(modifiedData.confirmed.value);
+        // console.log(modifiedData.deaths.value);
+        // console.log(modifiedData.recovered.value);
+        // console.log(modifiedData.lastUpdate);
         document.getElementById("confirmed_cases").innerHTML =
           modifiedData.confirmed.value;
+          var options = {
+              useeasing : true,
+              useGrouping: true,
+              separator: ','
+          }
+        var c = new CountUp("confirmed_cases", 0, modifiedData.confirmed.value, 0, 2.5, options);
+        c.start();
         document.getElementById("recovered_cases").innerHTML =
           modifiedData.recovered.value;
+        var c1 = new CountUp("recovered_cases", 0, modifiedData.recovered.value, 0, 2.5, options);
+        c1.start();
         document.getElementById("deaths").innerHTML = modifiedData.deaths.value;
+
+        var c2 = new CountUp("deaths", 0, modifiedData.deaths.value, 0, 2.5, options);
+        c2.start();
         document.getElementById("last_update").innerHTML = new Date(
           modifiedData.lastUpdate
         ).toDateString();
@@ -199,8 +313,9 @@
         ).toDateString();
       }
 
-      getData();
-      getCountries();
+      
+    getCountries();
+    //  getData(country_name);
     </script>
 
     <script
@@ -218,5 +333,7 @@
       integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
       crossorigin="anonymous"
     ></script>
+
+    
   </body>
 </html>
