@@ -42,32 +42,29 @@
 
    
     <div class="bs-example">
-        <nav class="navbar navbar-expand-md navbar-light bg-light">
-            <a href="#" class="navbar-brand">
-                <img src="https://images.unsplash.com/photo-1583324113626-70df0f4deaab?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9" height="36" alt="CoolBrand">
-            </a>
-            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+        
+            <a href="index.html" class="navbar-brand ml-2 ">
+                <img src="https://images.unsplash.com/photo-1583324113626-70df0f4deaab?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max&ixid=eyJhcHBfaWQiOjEyMDd9" height="30" alt="COVID-19">
+                COVID-19 TRACKER </a>
+
+            
+            <!-- <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
-            </button>
+            </button> -->
     
-            <div class="collapse navbar-collapse text-center" id="navbarCollapse">
-                <div class="navbar-nav">
-                    <h1>COVID-19 TRACKER</h1>
-                </div>
-                
-            </div>
-        </nav>
+           
+        
     </div>
     <div class="text-center mt-4"> 
       <form name="demoform">
-        <select  class="btn btn-secondary" name="country" onchange="getCountries()" id="countries">
+        <select  class="btn btn-secondary mb-4" name="country" onchange="getCountries()" id="countries">
           <option>Select_Country</option>
         </select>
       </form>
 
       
       <h2 id = "india" class="mt-2 mb-2" style="display: none;"> <span id="output"></span></h2>
-      <h2><span id="country_name" class="mt-2"></span>  </h2>
+      <h2><span id="country_name"  style="margin-top: 15px;"></span>  </h2>
     </div> 
    
    
@@ -88,6 +85,21 @@
             </p>
           </div>
         </div>
+
+        <div
+        class="card text-white bg-secondary mb-4 col-sm-4 mr-4 md-col-4 mx-auto mt-5 rounded"
+        style="max-width: 18rem;"
+        >
+        <div class="card-header"><h1>Active</h1></div>
+        <div class="card-body">
+          
+          <p class="card-text">
+              <h3><span id="active_cases"></span></h3>
+              <h3><span id="last_update3"></span></h3>
+              <h4>Number of Active Cases from COVID-19</h4>
+          </p>
+        </div>
+      </div>
 
         <div
           class="card text-white bg-success mb-4 col-sm-4 mr-4 md-col-4 mx-auto mt-5 rounded"
@@ -177,7 +189,7 @@
       var myChart = new Chart(ctx, {
           type: 'doughnut',
           data: {
-              labels: ['Confirmed', 'Infected', 'Deaths'],
+              labels: ['Active', 'Recovered', 'Deaths'],
               datasets: [{
                   label: 'Confirmed',
                   data: [confirmed,Infected,deaths],
@@ -324,10 +336,17 @@
         var a1 = modifiedData.confirmed.value;
         var a2 =  modifiedData.recovered.value;
         var a3 = modifiedData.deaths.value;
+        var a4 = a1- (a2 + a3);
+        document.getElementById("active_cases").innerHTML = a4;
+        var c3 = new CountUp("active_cases", 0, a4, 0, 2.5, options);
+        c3.start();
+        document.getElementById("last_update3").innerHTML = new Date(
+          modifiedData.lastUpdate
+        ).toDateString();
 
-        console.log(a1,a2,a3);
+        console.log(a4,a2,a3);
 
-        drawChart(a1,a2, a3)
+        drawChart(a4,a2, a3)
       }
 
       
