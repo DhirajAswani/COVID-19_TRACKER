@@ -19,13 +19,14 @@
       crossorigin="anonymous"
     />
 
-    <link rel="stylesheet" href="package/dist/Chart.min.css">
+    <!-- <link rel="stylesheet" href="package/dist/Chart.min.css"> -->
     <script
   src="https://code.jquery.com/jquery-3.5.0.min.js"
   integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
   crossorigin="anonymous"></script>
-    <script src="package/dist/Chart.min.js"></script>
+    <!-- <script src="package/dist/Chart.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/countup@1.8.2/dist/countUp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
     <!-- <script src="countUp.js-master/dist/countUp.js"></script> -->
     
 
@@ -106,7 +107,7 @@
         <div
           class="card text-white bg-danger mb-4 col-sm-4 md-col-4 mx-auto mt-5 rounded"
           style="max-width: 18rem;"
-        >
+         >
           <div class="card-header"><h1>Deaths</h1></div>
           <div class="card-body">
             
@@ -117,6 +118,11 @@
             </p>
           </div>
         </div>
+
+        
+          <canvas id="myChart" width="200" height="200" class="col-sm-4 md-col-4"></canvas>
+        
+        
       </div>
     </div>
 
@@ -130,7 +136,7 @@
     </div>
 
 
-    <!-- <canvas id="myChart" width="200" height="200"></canvas> -->
+    
     <!-- <div
           class="card text-white bg-success mb-4 col-sm-4 mr-4 md-col-4 mx-auto mt-5 rounded"
           style="max-width: 18rem;"
@@ -145,46 +151,8 @@
             </p>
           </div>
         </div> -->
-<!-- 
-    <script>
-      var ctx = document.getElementById('myChart').getContext('2d');
-      var myChart = new Chart(ctx, {
-          type: 'line',
-          data: {
-              // labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-              datasets: [{
-                  label: 'Confirmed',
-                  data: [12, 19, 3, 5, 2, 3],
-                  backgroundColor: [
-                      'rgba(255, 99, 132, 0.2)',
-                      'rgba(54, 162, 235, 0.2)',
-                      'rgba(255, 206, 86, 0.2)',
-                      'rgba(75, 192, 192, 0.2)',
-                      'rgba(153, 102, 255, 0.2)',
-                      'rgba(255, 159, 64, 0.2)'
-                  ],
-                  borderColor: [
-                      'rgba(255, 99, 132, 1)',
-                      'rgba(54, 162, 235, 1)',
-                      'rgba(255, 206, 86, 1)',
-                      'rgba(75, 192, 192, 1)',
-                      'rgba(153, 102, 255, 1)',
-                      'rgba(255, 159, 64, 1)'
-                  ],
-                  borderWidth: 1
-              }]
-          },
-          options: {
-              scales: {
-                  yAxes: [{
-                      ticks: {
-                          beginAtZero: true
-                      }
-                  }]
-              }
-          }
-      });
-      </script> -->
+
+  
 
     <script>
       const api_url = "https://covid19.mathdro.id/api/countries/India";
@@ -199,6 +167,44 @@
       //   document.getElementById("india2").style.display = "none";
       //   document.getElementById("india").style.display = "block";
       // }
+
+      async function drawChart(confirmed, Infected, deaths)
+      {
+        var ctx = document.getElementById('myChart').getContext('2d');
+      var myChart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+              labels: ['Confirmed', 'Infected', 'Deaths'],
+              datasets: [{
+                  label: 'Confirmed',
+                  data: [confirmed,Infected,deaths],
+                  backgroundColor: [
+                      '#0275d8','#5cb85c','#d9534f'
+                  ],
+                  // borderColor: [
+                  //     'rgba(255, 99, 132, 1)',
+                  //     'rgba(54, 162, 235, 1)',
+                  //     'rgba(255, 206, 86, 1)',
+                  //     'rgba(75, 192, 192, 1)',
+                  //     'rgba(153, 102, 255, 1)',
+                  //     'rgba(255, 159, 64, 1)'
+                  // ],
+                  borderWidth: 1
+              }],
+              
+          },
+          
+          options: {
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          beginAtZero: true
+                      }
+                  }]
+              }
+          }
+      });
+      }
       
       async function getCountries() {
         const response = await fetch(api_countries);
@@ -311,6 +317,14 @@
         document.getElementById("last_update2").innerHTML = new Date(
           modifiedData.lastUpdate
         ).toDateString();
+
+        var a1 = modifiedData.confirmed.value;
+        var a2 =  modifiedData.recovered.value;
+        var a3 = modifiedData.deaths.value;
+
+        console.log(a1,a2,a3);
+
+        drawChart(a1,a2, a3)
       }
 
       
